@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import auth from "./auth";
+// import auth from "./auth";
 import axios from "axios";
 
 // export const AppLayout = props => {
