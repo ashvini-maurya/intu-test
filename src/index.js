@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import LandingPage from "./LandingPage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { AppLayout } from "./app.layout";
+import AppLayout from "./AppLayout";
 import { ProtectedRoute } from "./protected.route";
 
 function App() {

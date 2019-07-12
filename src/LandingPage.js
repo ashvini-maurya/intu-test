@@ -25,6 +25,7 @@ class LandingPage extends Component {
     })
       .then(res => {
         this.props.history.push("/app");
+        localStorage.setItem("token", res.data.token)
         auth.login(() => {
           this.props.history.push("/app");
         });
