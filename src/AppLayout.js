@@ -26,17 +26,7 @@ class AppLayout extends Component {
   }
 
   componentDidMount() {
-    // axios.defaults.headers.common["bearer-token"] = localStorage.getItem(
-    //   "token"
-    // );
-
     axios.defaults.headers.common = {'Authorization': `Bearer ${this.state.token}`}
-
-
-    // const config = {
-    //   headers: {'Authorization': "bearer " + this.state.token}
-    // };
-
     axios({
       method: "get",
       url:
