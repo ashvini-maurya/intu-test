@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { LandingPage } from "./landing.page";
+import LandingPage from "./LandingPage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AppLayout } from "./app.layout";
 import { ProtectedRoute } from "./protected.route";
