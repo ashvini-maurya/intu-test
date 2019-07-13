@@ -7,12 +7,14 @@ import "./AppLayout.css";
 class AppLayout extends Component {
   state = {
     token: localStorage.getItem("token"),
-    devices: []
+    devices: [],
+    selectedDevice: "",
+    selectedDeviceResult: []
   };
 
   componentDidMount() {
     this.getListOfDevices();
-    this.getListOfLocations();
+    // this.getListOfLocations();
   }
 
   getListOfDevices = () => {
@@ -35,17 +37,20 @@ class AppLayout extends Component {
       });
   };
 
-  getListOfLocations = () => {
+  getLocationsOfDevice = () => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${this.state.token}`
     };
     axios({
       method: "GET",
       url:
-        "https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest?device=C46&page=2"
+        `https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest?device=${this.state.selectedDevice}&page=2`
     })
       .then(res => {
-        console.log("locations res: ", res);
+        console.log("locations res: ", res.data.result);
+        this.setState({
+          selectedDeviceResult: res.data.result
+        });
       })
       .catch(err => {
         console.log(err);
@@ -54,6 +59,14 @@ class AppLayout extends Component {
 
   checkHandler = event => {
     let devices = this.state.devices;
+    console.log(event.target.value);
+
+    this.setState({
+      selectedDevice: event.target.value
+    }, () => {
+      this.getLocationsOfDevice();
+    });
+
     devices.forEach(device => {
       if(device.device === event.target.value) {
         device.isChecked = event.target.checked
@@ -65,14 +78,16 @@ class AppLayout extends Component {
   };
 
   render() {
-    console.log(this.state.devices);
+    console.log(this.state.selectedDeviceResult);
     return (
       <div className="container-fluid">
         <div className="pt-4 px-2">
           <div className="row">
             <div className="col-md-10">
               <h1>here goes the maps</h1>
-              <Map />
+              {this.state.selectedDeviceResult ? (
+                <Map selectedDeviceResult={this.state.selectedDeviceResult} />
+              ) : null}
             </div>
 
             <div className="col-md-2">

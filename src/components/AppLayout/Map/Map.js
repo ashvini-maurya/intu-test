@@ -9,7 +9,14 @@ class Map extends Component {
           defaultCenter={{ lat: 12.9226831, lng: 77.6100332 }}
           defaultZoom={13}
         />
-        <Marker position={{ lat: 12.9151884, lng: 77.6652338 }} />
+        {this.props.selectedDeviceResult && this.props.selectedDeviceResult.length > 0 ? (
+          <Marker
+            position={{
+              lat: this.props.selectedDeviceResult[0].gps[0],
+              lng: this.props.selectedDeviceResult[0].gps[1]
+            }}
+          />
+        ) : null}
       </>
     ));
     return (
