@@ -6,8 +6,7 @@ import "./AppLayout.css";
 class AppLayout extends Component {
   state = {
     token: localStorage.getItem("token"),
-    devices: [],
-    device: false
+    devices: []
   };
 
   componentDidMount() {
@@ -53,12 +52,19 @@ class AppLayout extends Component {
   };
 
   checkHandler = event => {
+    let devices = this.state.devices;
+    devices.forEach(device => {
+      if(device.device === event.target.value) {
+        device.isChecked = event.target.checked
+      }
+    })
     this.setState({
-      [event.target.name]: event.target.value
-    });
+      devices: devices
+    })
   };
 
   render() {
+    console.log(this.state.devices);
     return (
       <div className="container-fluid">
         <div className="pt-4 px-2">
@@ -76,7 +82,8 @@ class AppLayout extends Component {
                       <input
                         name="device"
                         type="checkbox"
-                        checked={this.state.device}
+                        checked={device.isChecked}
+                        value={device.device}
                         onChange={this.checkHandler}
                       />
                       <span className="pl-2">{device.device}</span>
