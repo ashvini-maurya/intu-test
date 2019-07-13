@@ -11,6 +11,11 @@ class AppLayout extends Component {
   };
 
   componentDidMount() {
+    this.getListOfDevices();
+    this.getListOfLocations();
+  }
+
+  getListOfDevices = () => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${this.state.token}`
     };
@@ -28,7 +33,24 @@ class AppLayout extends Component {
       .catch(err => {
         console.log(err);
       });
-  }
+  };
+
+  getListOfLocations = () => {
+    axios.defaults.headers.common = {
+      Authorization: `Bearer ${this.state.token}`
+    };
+    axios({
+      method: "get",
+      url:
+        "GET: https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest?device=C46&page=2"
+    })
+      .then(res => {
+        console.log("locations res: ", res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   checkHandler = event => {
     this.setState({
