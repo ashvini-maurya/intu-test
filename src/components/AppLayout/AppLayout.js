@@ -19,7 +19,7 @@ class AppLayout extends Component {
       Authorization: `Bearer ${this.state.token}`
     };
     axios({
-      method: "get",
+      method: "GET",
       url:
         "https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest/devices"
     })
@@ -39,9 +39,9 @@ class AppLayout extends Component {
       Authorization: `Bearer ${this.state.token}`
     };
     axios({
-      method: "get",
+      method: "GET",
       url:
-        "GET: https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest?device=C46&page=2"
+        "https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest?device=C46&page=2"
     })
       .then(res => {
         console.log("locations res: ", res);
