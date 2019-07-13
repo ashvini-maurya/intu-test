@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import auth from "../../auth";
+import Map from "./Map/Map";
 import axios from "axios";
 import "./AppLayout.css";
 
@@ -71,6 +72,7 @@ class AppLayout extends Component {
           <div className="row">
             <div className="col-md-10">
               <h1>here goes the maps</h1>
+              <Map />
             </div>
 
             <div className="col-md-2">
