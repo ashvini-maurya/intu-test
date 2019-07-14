@@ -14,7 +14,6 @@ class AppLayout extends Component {
 
   componentDidMount() {
     this.getListOfDevices();
-    // this.getListOfLocations();
   }
 
   getListOfDevices = () => {
@@ -27,7 +26,6 @@ class AppLayout extends Component {
         "https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest/devices"
     })
       .then(res => {
-        console.log("device res: ", res);
         this.setState({
           devices: res.data.result
         });
@@ -37,19 +35,22 @@ class AppLayout extends Component {
       });
   };
 
-  getLocationsOfDevice = () => {
+  apiCallForDeviceLocation = page => {
     axios.defaults.headers.common = {
       Authorization: `Bearer ${this.state.token}`
     };
     axios({
       method: "GET",
-      url:
-        `https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest?device=${this.state.selectedDevice}&page=2`
+      url: `https://dl5opah3vc.execute-api.ap-south-1.amazonaws.com/latest?device=${
+        this.state.selectedDevice
+      }&page=${page}`
     })
       .then(res => {
-        console.log("locations res: ", res.data.result);
         this.setState({
-          selectedDeviceResult: res.data.result
+          selectedDeviceResult: [
+            ...this.state.selectedDeviceResult,
+            ...res.data.result
+          ]
         });
       })
       .catch(err => {
@@ -57,24 +58,40 @@ class AppLayout extends Component {
       });
   };
 
-  checkHandler = event => {
-    let devices = this.state.devices;
+  getLocationsOfDevice = async _ => {
+    for (let page = 1; page <= 50; page++) {
+      await this.apiCallForDeviceLocation(page);
+    }
+  };
+
+  deviceSelectHandler = event => {
+    // let devices = this.state.devices;
     console.log(event.target.value);
 
-    this.setState({
-      selectedDevice: event.target.value
-    }, () => {
-      this.getLocationsOfDevice();
-    });
+    const { name, value } = event.target;
 
-    devices.forEach(device => {
-      if(device.device === event.target.value) {
-        device.isChecked = event.target.checked
+    this.setState(
+      {
+        selectedDevice: event.target.value
+      },
+      () => {
+        this.getLocationsOfDevice();
       }
-    })
+    );
+
+    // devices.forEach(device => {
+    //   if(device.device === event.target.value) {
+    //     device.isChecked = event.target.checked
+    //   }
+    // })
+
+    // this.setState({
+    //   devices: devices
+    // })
+
     this.setState({
-      devices: devices
-    })
+      [name]: value
+    });
   };
 
   render() {
@@ -98,10 +115,10 @@ class AppLayout extends Component {
                     <label>
                       <input
                         name="device"
-                        type="checkbox"
+                        type="radio"
                         checked={device.isChecked}
                         value={device.device}
-                        onChange={this.checkHandler}
+                        onChange={this.deviceSelectHandler}
                       />
                       <span className="pl-2">{device.device}</span>
                     </label>
