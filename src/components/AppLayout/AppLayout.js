@@ -59,6 +59,9 @@ class AppLayout extends Component {
   };
 
   getLocationsOfDevice = async _ => {
+    this.setState({
+      selectedDeviceResult: []
+    })
     for (let page = 1; page <= 50; page++) {
       await this.apiCallForDeviceLocation(page);
     }
@@ -75,34 +78,22 @@ class AppLayout extends Component {
       }
     );
 
-    // devices.forEach(device => {
-    //   if(device.device === event.target.value) {
-    //     device.isChecked = event.target.checked
-    //   }
-    // })
-
-    // this.setState({
-    //   devices: devices
-    // })
-
     this.setState({
       [name]: value
     });
   };
 
   render() {
-    // console.log("before sorting", this.state.selectedDeviceResult);
-    // console.log("after sorting", (this.state.selectedDeviceResult).sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt)));
     const selectedDevicesWithGPS = this.state.selectedDeviceResult.filter(deviceData => deviceData.gps);
     return (
       <div className="container-fluid">
         <div className="pt-4 px-2">
           <div className="row">
             <div className="col-md-10">
-              <h1>here goes the maps</h1>
+              <h4>Select a device from device list to see it's travel path</h4>
               {this.state.selectedDeviceResult.length > 0 ? (
                 <Map selectedDevicesWithGPS={selectedDevicesWithGPS} />
-              ) : null}
+              ) : <p>No Map data found, please select another device from the list</p>}
             </div>
 
             <div className="col-md-2">
@@ -127,6 +118,7 @@ class AppLayout extends Component {
           </div>
 
           <button
+            className="btn btn-primary"
             onClick={() => {
               auth.logout(() => {
                 localStorage.clear();

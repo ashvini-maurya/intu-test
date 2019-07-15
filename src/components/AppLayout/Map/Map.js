@@ -15,8 +15,6 @@ class Map extends Component {
 
   componentDidMount() {
     const directionsService = new google.maps.DirectionsService();
-    // const origin = { lat: 28.38993333333333, lng: 76.69968 };
-    // const destination = { lat: 27.48444888888889, lng: 77.65632888888889 };
 
     const origin = this.state.origin;
     const destination = this.state.destination;
@@ -40,12 +38,14 @@ class Map extends Component {
   }
 
   render() {
-    const icon = { url: 'https://assetsstatic.s3.ap-south-1.amazonaws.com/navigation.svg', scaledSize: { width: 32, height: 32 } };
-    const haltIcon = { url: 'https://assetsstatic.s3.ap-south-1.amazonaws.com/lhalt.svg', scaledSize: { width: 32, height: 32 } };
+    console.log("hihiihi")
+    console.log("this.props.selectedDevicesWithGPS.length: ", this.props.selectedDevicesWithGPS.length);
+    const icon = { url: 'https://assetsstatic.s3.ap-south-1.amazonaws.com/navigation.svg', scaledSize: { width: 50, height: 50 } };
+    const haltIcon = { url: 'https://assetsstatic.s3.ap-south-1.amazonaws.com/lhalt.svg', scaledSize: { width: 50, height: 50 } };
     const DefaultGoogleMap = withGoogleMap(props => (
       <GoogleMap
         defaultCenter={{ lat: 12.9226831, lng: 77.6100332 }}
-        defaultZoom={4}
+        defaultZoom={8}
       >
         <DirectionsRenderer
           directions={this.state.directions}
