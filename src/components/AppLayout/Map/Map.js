@@ -8,14 +8,18 @@ import {
 } from "react-google-maps";
 class Map extends Component {
   state = {
-    directions: null
+    directions: null,
+    origin: {lat:  parseFloat(this.props.selectedDevicesWithGPS[0].gps[0]), lng: parseFloat(this.props.selectedDevicesWithGPS[0].gps[1])},
+    destination: {lat: parseFloat(this.props.selectedDevicesWithGPS.slice(-1)[0].gps[0]), lng: parseFloat(this.props.selectedDevicesWithGPS.slice(-1)[0].gps[1])}
   };
 
   componentDidMount() {
     const directionsService = new google.maps.DirectionsService();
+    // const origin = { lat: 28.38993333333333, lng: 76.69968 };
+    // const destination = { lat: 27.48444888888889, lng: 77.65632888888889 };
 
-    const origin = { lat: 28.38993333333333, lng: 76.69968 };
-    const destination = { lat: 27.48444888888889, lng: 77.6563288888889 };
+    const origin = this.state.origin;
+    const destination = this.state.destination;
 
     directionsService.route(
       {
@@ -37,6 +41,7 @@ class Map extends Component {
 
   render() {
     const icon = { url: 'https://assetsstatic.s3.ap-south-1.amazonaws.com/navigation.svg', scaledSize: { width: 32, height: 32 } };
+    const haltIcon = { url: 'https://assetsstatic.s3.ap-south-1.amazonaws.com/lhalt.svg', scaledSize: { width: 32, height: 32 } };
     const DefaultGoogleMap = withGoogleMap(props => (
       <GoogleMap
         defaultCenter={{ lat: 12.9226831, lng: 77.6100332 }}
@@ -45,13 +50,24 @@ class Map extends Component {
         <DirectionsRenderer
           directions={this.state.directions}
         />
-        <Marker
-          position={{
-            lat: 28.38993333333333,
-            lng: 76.69968
-          }}
-          icon={icon}
-        />
+
+        {this.state.origin.lat === this.state.destination.lat && this.state.origin.lng === this.state.destination.lng ? (
+          <Marker
+            position={{
+              lat: this.state.origin.lat,
+              lng: this.state.origin.lng
+            }}
+            icon={haltIcon}
+          />
+        ) : (
+          <Marker
+            position={{
+              lat: 28.38993333333333,
+              lng: 76.69968
+            }}
+            icon={icon}
+          />
+        )}
       </GoogleMap>
     ));
 

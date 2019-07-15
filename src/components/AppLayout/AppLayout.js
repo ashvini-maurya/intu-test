@@ -65,11 +65,7 @@ class AppLayout extends Component {
   };
 
   deviceSelectHandler = event => {
-    // let devices = this.state.devices;
-    console.log(event.target.value);
-
     const { name, value } = event.target;
-
     this.setState(
       {
         selectedDevice: event.target.value
@@ -95,15 +91,17 @@ class AppLayout extends Component {
   };
 
   render() {
-    console.log(this.state.selectedDeviceResult);
+    // console.log("before sorting", this.state.selectedDeviceResult);
+    // console.log("after sorting", (this.state.selectedDeviceResult).sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt)));
+    const selectedDevicesWithGPS = this.state.selectedDeviceResult.filter(deviceData => deviceData.gps);
     return (
       <div className="container-fluid">
         <div className="pt-4 px-2">
           <div className="row">
             <div className="col-md-10">
               <h1>here goes the maps</h1>
-              {this.state.selectedDeviceResult ? (
-                <Map selectedDeviceResult={this.state.selectedDeviceResult} />
+              {this.state.selectedDeviceResult.length > 0 ? (
+                <Map selectedDevicesWithGPS={selectedDevicesWithGPS} />
               ) : null}
             </div>
 
