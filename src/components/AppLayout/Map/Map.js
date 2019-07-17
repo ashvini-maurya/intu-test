@@ -38,8 +38,6 @@ class Map extends Component {
   }
 
   render() {
-    console.log("hihiihi")
-    console.log("this.props.selectedDevicesWithGPS.length: ", this.props.selectedDevicesWithGPS.length);
     const icon = { url: 'https://assetsstatic.s3.ap-south-1.amazonaws.com/navigation.svg', scaledSize: { width: 50, height: 50 } };
     const haltIcon = { url: 'https://assetsstatic.s3.ap-south-1.amazonaws.com/lhalt.svg', scaledSize: { width: 50, height: 50 } };
     const DefaultGoogleMap = withGoogleMap(props => (
@@ -62,8 +60,8 @@ class Map extends Component {
         ) : (
           <Marker
             position={{
-              lat: 28.38993333333333,
-              lng: 76.69968
+              lat: this.state.origin.lat,
+              lng: this.state.origin.lng
             }}
             icon={icon}
           />
